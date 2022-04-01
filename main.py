@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import financeDataBase
 
-#testing comment again for main
+#testing comment again for main iubi
 
 def verify(user_input):
     try:

@@ -5,6 +5,8 @@ from PyQt5.uic import loadUi
 import financeDataBase
 
 
+# testing comment again for master
+
 def verify(user_input):
     try:
         int(user_input)
@@ -44,8 +46,6 @@ class FinanceMenu(QDialog):
         self.enterGoalButton.clicked.connect(self.send_goal)
         self.goal = financeDataBase.get_data("GOAL")
         self.checkGoalButton.clicked.connect(self.check_at_goal)
-
-
 
     def send_all_data(self):
         if verify(self.funEntry.text()):
@@ -153,6 +153,28 @@ class Settings(QDialog):
         loadUi("settings.ui", self)
         self.homeButton.clicked.connect(self.go_home)
         self.submitButton.clicked.connect(self.change_back_colour)
+        self.RGB_Button.clicked.connect(self.custom_change_color)
+        self.rSlider.valueChanged.connect(self.get_r_value)
+        self.gSlider.valueChanged.connect(self.get_g_value)
+        self.bSlider.valueChanged.connect(self.get_b_value)
+
+    def custom_change_color(self):
+        window.setStyleSheet(f"background-color: rgb({self.get_r_value()}, {self.get_g_value()}, {self.get_b_value()})")
+
+    def get_r_value(self):
+        red = str(self.rSlider.value())
+        self.rValue.setText(red)
+        return int(red)
+
+    def get_g_value(self):
+        green = str(self.gSlider.value())
+        self.gValue.setText(green)
+        return int(green)
+
+    def get_b_value(self):
+        blue = str(self.bSlider.value())
+        self.bValue.setText(blue)
+        return int(blue)
 
     def go_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 1)
@@ -178,7 +200,7 @@ window = FinanceMenu()
 
 widget.addWidget(window)
 
-widget.setFixedWidth(1000)
+widget.setFixedWidth(1500)
 widget.setFixedHeight(1000)
 widget.show()
 app.exec_()

@@ -82,8 +82,9 @@ def graph(graph_type):
 
 
 def graph_all():
-    labels = []
-    slices = []
+    data = {"Labels": [],
+            "Slices": []}
+
     fun = sum_partic_expense("FUN")
     transport = sum_partic_expense("TRANSPORTATION")
     food = sum_partic_expense("FOOD")
@@ -92,33 +93,34 @@ def graph_all():
     other = sum_partic_expense("OTHER")
 
     if fun is not None:
-        labels.append("FUN")
-        slices.append(fun)
+        data["Labels"].append("FUN")
+        data["Slices"].append(fun)
 
     if transport is not None:
-        labels.append("TRANSPORT")
-        slices.append(transport)
+        data["Labels"].append("TRANSPORT")
+        data["Slices"].append(transport)
 
     if food is not None:
-        labels.append("FOOD")
-        slices.append(food)
+        data["Labels"].append("FOOD")
+        data["Slices"].append(food)
 
     if clothes is not None:
-        labels.append("CLOTHES")
-        slices.append(clothes)
+        data["Labels"].append("CLOTHES")
+        data["Slices"].append(clothes)
 
     if bills is not None:
-        labels.append("BILLS")
-        slices.append(bills)
+        data["Labels"].append("BILLS")
+        data["Slices"].append(bills)
 
     if other is not None:
-        labels.append("OTHER")
-        slices.append(other)
+        data["Labels"].append("OTHER")
+        data["Slices"].append(other)
 
     colors = ("limegreen", "cyan", "yellow", "pink",
               "red", "lightblue")
 
-    plt.pie(slices, labels=labels, shadow=True, wedgeprops={'edgecolor': 'black'}, autopct=f"%0.2f%%", colors=colors)
+    plt.pie(data.get("Slices"), labels=data.get("Labels"), shadow=True, wedgeprops={'edgecolor': 'black'},
+            autopct=f"%0.2f%%", colors=colors)
     plt.title("PIE CHART")
     plt.tight_layout()
     plt.show()
@@ -141,5 +143,3 @@ def delete_recent(query):
     cur.execute(f"DELETE FROM {query} WHERE rowid= {count[0][0]}")
     con.commit()
     con.close()
-
-

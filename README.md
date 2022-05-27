@@ -22,10 +22,9 @@ This is a simple finance tracker that allows users to track and mange their expe
 
 ![main](https://user-images.githubusercontent.com/59937191/170799097-222e8b83-f73c-4e41-b2bd-a520af125cb4.png)
 ![main2](https://user-images.githubusercontent.com/59937191/170799105-27d18519-69a4-4abb-ac4c-18d4446b27ce.png)
-![settings](https://user-images.githubusercontent.com/59937191/170799109-2b9652c0-bef8-454d-aea2-7aa996447090.png)
+![settings](https://user-images.githubusercontent.com/59937191/170799166-4a884a29-2587-4d24-a704-1e04c4f9cbb9.png)
 ![other](https://user-images.githubusercontent.com/59937191/170799111-04ff05df-2af9-4df1-aec7-67b675b66bbe.png)
 ![piechart](https://user-images.githubusercontent.com/59937191/170799112-7f760048-b9a3-417e-8268-8b46f3cd6f91.png)
-
 
 ##Inspiration 
 After taking part in my first hackathon when I was 15, and creatign a pet expense tracker, I decided to take my SQL knowedge and GUI capabilities to the next level. I wanted to create an app that would help my family and other peopel monitor their finances. This is app focuses on the simplicity on just keeping track of how you spend your money. 

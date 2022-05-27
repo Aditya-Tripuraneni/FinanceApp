@@ -1,4 +1,6 @@
 # FinanceApp
+![Finance_Tracker](https://user-images.githubusercontent.com/59937191/170799233-576fdaf2-6603-4fd1-8966-4b18cb556368.png)
+
 
 ## Installation 
 ````

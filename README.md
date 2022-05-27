@@ -5,7 +5,7 @@
 pip install PyQt5
 ```` 
 
-##Imports 
+## Imports 
 ````
 import sys
 from PyQt5 import QtWidgets

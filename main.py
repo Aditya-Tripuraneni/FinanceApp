@@ -5,8 +5,6 @@ from PyQt5.uic import loadUi
 import financeDataBase
 
 
-# testing comment again for master
-
 def verify(user_input):
     try:
         int(user_input)
@@ -37,14 +35,20 @@ class FinanceMenu(QDialog):
         self.viewOtherGraph.clicked.connect(lambda: financeDataBase.graph("OTHER"))
         self.viewPieChart.clicked.connect(financeDataBase.graph_all)
         self.settingsButton.clicked.connect(self.go_settings)
+        self.helpButton.clicked.connect(self.go_help)
         self.deletePrevFun.clicked.connect(lambda: financeDataBase.delete_recent("FUN"))
         self.deletePrevTransportation.clicked.connect(lambda: financeDataBase.delete_recent("TRANSPORTATION"))
         self.deletePrevFood.clicked.connect(lambda: financeDataBase.delete_recent("FOOD"))
         self.deletePrevClothes.clicked.connect(lambda: financeDataBase.delete_recent("CLOTHES"))
         self.deletePrevBills.clicked.connect(lambda: financeDataBase.delete_recent("BILLS"))
         self.deletePrevOther.clicked.connect(lambda: financeDataBase.delete_recent("OTHER"))
+        self.del_table_fun.clicked.connect(lambda: financeDataBase.delete_data_in_table("fun"))
+        self.del_table_transportation.clicked.connect(lambda: financeDataBase.delete_data_in_table("transportation"))
+        self.del_table_food.clicked.connect(lambda: financeDataBase.delete_data_in_table("food"))
+        self.del_table_clothes.clicked.connect(lambda: financeDataBase.delete_data_in_table("clothes"))
+        self.del_table_bills.clicked.connect(lambda: financeDataBase.delete_data_in_table("bills"))
+        self.del_table_other.clicked.connect(lambda: financeDataBase.delete_data_in_table("other"))
         self.enterGoalButton.clicked.connect(self.send_goal)
-        self.goal = financeDataBase.get_data("GOAL")
         self.checkGoalButton.clicked.connect(self.check_at_goal)
 
     def send_all_data(self):
@@ -85,12 +89,13 @@ class FinanceMenu(QDialog):
         self.goalEntry.setText("")
 
     def check_at_goal(self):
-        if financeDataBase.get_total_spent() > self.goal[0][0]:
+        goal = financeDataBase.get_data("GOAL")
+        if financeDataBase.get_total_spent() > goal[0][0]:
             print("You have exceeded your budget!")
             self.spentSpecificLabel.setText("You are over budget")
-        elif 0 <= (self.goal[0][0] - financeDataBase.get_total_spent()) <= 500:
-            self.spentSpecificLabel.setText(f"You are $500 within the budget, your budget is ${self.goal[0][0]}")
-        elif financeDataBase.get_total_spent() < self.goal[0][0]:
+        elif 0 <= (goal[0][0] - financeDataBase.get_total_spent()) <= 500:
+            self.spentSpecificLabel.setText(f"You are $500 within the budget, your budget is ${goal[0][0]}")
+        elif financeDataBase.get_total_spent() < goal[0][0]:
             self.spentSpecificLabel.setText("You are under budget don't worry!")
         else:
             self.spentSpecificLabel.setText("You reached budget!")
@@ -146,6 +151,25 @@ class FinanceMenu(QDialog):
         widget.addWidget(settings_window)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    def go_help(self):
+        help_window = Help()
+        widget.addWidget(help_window)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+class Help(QDialog):
+    def __init__(self):
+        super(Help, self).__init__()
+        loadUi("help.ui", self)
+        self.homeButton1.clicked.connect(self.go_home)
+        self.explain.setWordWrap(True)
+
+    def go_home(self):
+        financeapp = FinanceMenu()
+        widget.addWidget(financeapp)
+        widget.setCurrentIndex(widget.currentIndex() +1)
+        print(widget.currentIndex())
+
 
 class Settings(QDialog):
     def __init__(self):
@@ -177,7 +201,9 @@ class Settings(QDialog):
         return int(blue)
 
     def go_home(self):
-        widget.setCurrentIndex(widget.currentIndex() - 1)
+        financeapp = FinanceMenu()
+        widget.addWidget(financeapp)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def change_back_colour(self):
         state = self.colorSelectBox.currentText()

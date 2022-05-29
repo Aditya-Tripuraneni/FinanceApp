@@ -36,3 +36,12 @@ After taking part in my first hackathon when I was 15, and creatign a pet expens
 - Matplotlib 
 - More from SQL
 This project allowed me to become more confident in my Object Oriented programming skills, and allowed me to work with new technologies I have previous not worked with before such as a powerful GUI builder "Pyqt5". I was able to learn how to efficiently use Matplot lib to implement graphs and a pie chart. Lastly, I became more familar with SQL commands in python and using better practices to retrieve data. 
+
+
+## Latest Updates:
+### May 29th 2022
+Added ability to delete categories 
+Added help button switching screen to explain purpose of app
+Fixed "check goal" button bug (Can now view goal properly, before users could only click once, and it would retrieve data once)
+Fixed SQL commands on "financeDataBase.py", better/safer usage of SQL commands
+

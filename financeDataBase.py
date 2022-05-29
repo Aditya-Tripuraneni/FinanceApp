@@ -144,4 +144,15 @@ def delete_recent(query):
     cur.execute(f"DELETE FROM {query} WHERE rowid= {count[0][0]}")
     con.commit()
     con.close()
+    
+def delete_data_in_table(query):
+    con = sqlite3.connect("Finance.db")
+    cur = con.cursor()
+    cur.execute(f"DROP TABLE {query}")
+    cur.execute(f"""CREATE TABLE {query}(
+                payed real
+                )""")
+    con.commit()
+    con.close()
+
 

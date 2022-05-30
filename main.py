@@ -15,6 +15,30 @@ def verify(user_input):
         return False
 
 
+def go_help():
+    help_window = Help()
+    widget.addWidget(help_window)
+    widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+def go_home():
+    financeapp = FinanceMenu()
+    widget.addWidget(financeapp)
+    widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+def go_settings():
+    settings_window = Settings()
+    widget.addWidget(settings_window)
+    widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+def go_confirm():
+    confirm = Confirm()
+    widget.addWidget(confirm)
+    widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
 class FinanceMenu(QDialog):
     def __init__(self):
         super(FinanceMenu, self).__init__()
@@ -34,8 +58,8 @@ class FinanceMenu(QDialog):
         self.viewBillsGraph.clicked.connect(lambda: financeDataBase.graph("BILLS"))
         self.viewOtherGraph.clicked.connect(lambda: financeDataBase.graph("OTHER"))
         self.viewPieChart.clicked.connect(financeDataBase.graph_all)
-        self.settingsButton.clicked.connect(self.go_settings)
-        self.helpButton.clicked.connect(self.go_help)
+        self.settingsButton.clicked.connect(lambda: go_settings())
+        self.helpButton.clicked.connect(lambda: go_help())
         self.deletePrevFun.clicked.connect(lambda: financeDataBase.delete_recent("FUN"))
         self.deletePrevTransportation.clicked.connect(lambda: financeDataBase.delete_recent("TRANSPORTATION"))
         self.deletePrevFood.clicked.connect(lambda: financeDataBase.delete_recent("FOOD"))
@@ -146,41 +170,26 @@ class FinanceMenu(QDialog):
         spent = financeDataBase.get_total_spent()
         self.spentSpecificLabel.setText(f"TOTAL Expenses: ${round(spent)}")
 
-    def go_settings(self):
-        settings_window = Settings()
-        widget.addWidget(settings_window)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
-    def go_help(self):
-        help_window = Help()
-        widget.addWidget(help_window)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
 
 class Help(QDialog):
     def __init__(self):
         super(Help, self).__init__()
         loadUi("help.ui", self)
-        self.homeButton1.clicked.connect(self.go_home)
+        self.homeButton1.clicked.connect(lambda: go_home())
         self.explain.setWordWrap(True)
-
-    def go_home(self):
-        financeapp = FinanceMenu()
-        widget.addWidget(financeapp)
-        widget.setCurrentIndex(widget.currentIndex() +1)
-        print(widget.currentIndex())
 
 
 class Settings(QDialog):
     def __init__(self):
         super(Settings, self).__init__()
         loadUi("settings.ui", self)
-        self.homeButton.clicked.connect(self.go_home)
+        self.homeButton.clicked.connect(go_home)
         self.submitButton.clicked.connect(self.change_back_colour)
         self.RGB_Button.clicked.connect(self.custom_change_color)
         self.rSlider.valueChanged.connect(self.get_r_value)
         self.gSlider.valueChanged.connect(self.get_g_value)
         self.bSlider.valueChanged.connect(self.get_b_value)
+        self.clearRecordsButton.clicked.connect(lambda: go_confirm())
 
     def custom_change_color(self):
         window.setStyleSheet(f"background-color: rgb({self.get_r_value()}, {self.get_g_value()}, {self.get_b_value()})")
@@ -200,11 +209,6 @@ class Settings(QDialog):
         self.bValue.setText(blue)
         return int(blue)
 
-    def go_home(self):
-        financeapp = FinanceMenu()
-        widget.addWidget(financeapp)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
     def change_back_colour(self):
         state = self.colorSelectBox.currentText()
 
@@ -217,6 +221,15 @@ class Settings(QDialog):
         else:
             window.setStyleSheet("""QDialog#Dialog{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, 
             y2:1, stop:0 rgba(221, 214, 243, 1), stop:1 rgba(250, 172, 168, 1)) }""")
+
+
+class Confirm(QDialog):
+    def __init__(self):
+        super(Confirm, self).__init__()
+        loadUi("confirm.ui", self)
+        self.warning.setWordWrap(True)
+        self.cancelButton.clicked.connect(lambda: go_settings())
+        self.proceedButton.clicked.connect(lambda: financeDataBase.delete_all())
 
 
 app = QApplication(sys.argv)

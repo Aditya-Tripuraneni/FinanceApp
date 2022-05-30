@@ -44,4 +44,5 @@ This project allowed me to become more confident in my Object Oriented programmi
 - Added help button switching screen to explain purpose of app
 - Fixed "check goal" button bug (Can now view goal properly, before users could only click once, and it would retrieve data once)
 - Fixed SQL commands on "financeDataBase.py", better/safer usage of SQL commands
+- Delete all data button (Warning pop up added) 
 

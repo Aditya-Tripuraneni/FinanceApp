@@ -2,9 +2,11 @@
 ![Finance_Tracker](https://user-images.githubusercontent.com/59937191/170799233-576fdaf2-6603-4fd1-8966-4b18cb556368.png)
 
 
-## Installation 
+## Installations
 ````
 pip install PyQt5
+pip install matplotlib 
+pip install db-sqlite3
 ```` 
 
 ## Imports 
@@ -20,7 +22,7 @@ import financeDataBase
 financeDataBase is the other python file containing all necessary methods to perform SQL actions 
 
 ##  What is this? 
-This is a simple finance tracker that allows users to track and mange their expenses on various categories. This app allows users to monitor their finances, add expenses, delete expenses, view their total expesnes, view various graphs on how their money is being spent and more! Some intersting= features that were recently added are, users can change the background of their app based on their liking, or they can chose from 3 default gradients. 
+This is a simple finance tracker that allows users to track and mange their expenses on various categories. This app allows users to monitor their finances, add expenses, delete expenses, view their total expesnes, view various graphs on how their money is being spent and more! Some intersting features that were recently added are, users can change the background of their app based on their liking, or they can chose from 3 default gradients. 
 
 ![main](https://user-images.githubusercontent.com/59937191/170799097-222e8b83-f73c-4e41-b2bd-a520af125cb4.png)
 ![main2](https://user-images.githubusercontent.com/59937191/170799105-27d18519-69a4-4abb-ac4c-18d4446b27ce.png)

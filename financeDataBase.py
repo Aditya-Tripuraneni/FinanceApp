@@ -156,7 +156,7 @@ def delete_data_in_table(query):
     con.close()
     
 
-    def delete_all():
+def delete_all():
     delete_data_in_table("fun")
     delete_data_in_table("transportation")
     delete_data_in_table("food")

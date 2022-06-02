@@ -18,7 +18,7 @@ from PyQt5.uic import loadUi
 import financeDataBase
 ````
 
-## Imports for financedata.py
+## Imports for financeDataBase.py
 ````
 import sqlite3
 from matplotlib import pyplot as plt

@@ -9,13 +9,19 @@ pip install matplotlib
 pip install db-sqlite3
 ```` 
 
-## Imports 
+## Imports for main.py
 ````
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import financeDataBase
+````
+
+## Imports for financedata.py
+````
+import sqlite3
+from matplotlib import pyplot as plt
 ````
 
 ### Note

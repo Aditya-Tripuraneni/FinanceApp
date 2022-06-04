@@ -4,11 +4,27 @@ from matplotlib import pyplot as plt
 plt.style.use('ggplot')
 
 
+def send_bg_color(color):
+    connection = sqlite3.connect("Finance.db")
+    cur = connection.cursor()
+    cur.execute(f"UPDATE colorChoice SET color = (:color) WHERE rowid = 1", {"color": color})
+    connection.commit()
+    connection.close()
+
+
+def get_bg_color():
+    connection = sqlite3.connect("Finance.db")
+    cur = connection.cursor()
+    cur.execute(f"SELECT * FROM colorChoice")
+    data = cur.fetchall()
+    return data[0][0]
+
+
 def send_data(query, data):
     connection = sqlite3.connect("Finance.db")
     cur = connection.cursor()
     num_data = int(data)
-    cur.execute(f"INSERT INTO {query} VALUES (:pay)", {"pay": num_data})
+    cur.execute(f"INSERT INTO {query} VALUES (:payed)", {"payed": num_data})
     connection.commit()
     connection.close()
 
@@ -17,7 +33,7 @@ def update_record(query, data):
     connection = sqlite3.connect("Finance.db")
     cur = connection.cursor()
     num_data = int(data)
-    cur.execute(f"UPDATE {query} SET userGoal = {num_data} WHERE rowid = 1")
+    cur.execute(f"UPDATE {query} SET userGoal = (:goal) WHERE rowid = 1", {"goal": num_data})
     connection.commit()
     connection.close()
 
@@ -97,12 +113,10 @@ def graph_all():
         slices.append(fun)
 
     if transport is not None:
-
         labels.append("TRANSPORT")
         slices.append(transport)
 
     if food is not None:
-
         labels.append("FOOD")
         slices.append(food)
 
@@ -134,17 +148,24 @@ def get_count(query):
     count = cur.fetchall()
     con.commit()
     con.close()
-    return count
+    return count[0][0]
 
 
 def delete_recent(query):
     con = sqlite3.connect("Finance.db")
     count = get_count(query)
     cur = con.cursor()
-    cur.execute(f"DELETE FROM {query} WHERE rowid= {count[0][0]}")
+    cur.execute(f"DELETE FROM {query} WHERE rowid= (:delete)", {"delete": count})
     con.commit()
     con.close()
-    
+
+
+"""
+This will drop the table, 
+then it will create a new table since there sqlite does not support truncate function
+"""
+
+
 def delete_data_in_table(query):
     con = sqlite3.connect("Finance.db")
     cur = con.cursor()
@@ -154,7 +175,7 @@ def delete_data_in_table(query):
                 )""")
     con.commit()
     con.close()
-    
+
 
 def delete_all():
     delete_data_in_table("fun")

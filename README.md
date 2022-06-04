@@ -47,10 +47,7 @@ This project allowed me to become more confident in my Object Oriented programmi
 
 
 ## Latest Updates:
-### May 29th 2022
-- Added ability to delete categories 
-- Added help button switching screen to explain purpose of app
-- Fixed "check goal" button bug (Can now view goal properly, before users could only click once, and it would retrieve data once)
-- Fixed SQL commands on "financeDataBase.py", better/safer usage of SQL commands
-- Delete all data button (Warning pop up added) 
+### June 4th 2022
+- Fixed bug where background color kept changing when switching screens
+- Added ability so finance app can save your previous background when reopening 
 

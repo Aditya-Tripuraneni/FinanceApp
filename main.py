@@ -4,6 +4,10 @@ from PyQt5.QtWidgets import QDialog, QApplication
 from PyQt5.uic import loadUi
 import financeDataBase
 
+mauve = "rgba(66, 39, 90, 1), stop:1 rgba(115, 75, 109, 1)"
+green_blue = "rgba(67, 206, 162, 1), stop:1 rgba(24, 90, 157, 1)"
+pink_orange = "rgba(221, 214, 243, 1), stop:1 rgba(250, 172, 168, 1)"
+
 
 def verify(user_input):
     try:
@@ -23,6 +27,13 @@ def go_help():
 
 def go_home():
     financeapp = FinanceMenu()
+    data = financeDataBase.get_bg_color()
+
+    print(f"this is data {data}")
+    financeapp.setStyleSheet(
+        f"QDialog#Dialog {{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1,"
+        f"y2:1, stop:0 {data}) }}")
+
     widget.addWidget(financeapp)
     widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -74,6 +85,8 @@ class FinanceMenu(QDialog):
         self.del_table_other.clicked.connect(lambda: financeDataBase.delete_data_in_table("other"))
         self.enterGoalButton.clicked.connect(self.send_goal)
         self.checkGoalButton.clicked.connect(self.check_at_goal)
+        self.setStyleSheet(f"QDialog#Dialog {{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1,"
+                           f"y2:1, stop:0 {financeDataBase.get_bg_color()}) }})")
 
     def send_all_data(self):
         if verify(self.funEntry.text()):
@@ -183,21 +196,25 @@ class Settings(QDialog):
     def __init__(self):
         super(Settings, self).__init__()
         loadUi("settings.ui", self)
-        self.homeButton.clicked.connect(go_home)
-        self.submitButton.clicked.connect(self.change_back_colour)
-        self.RGB_Button.clicked.connect(self.custom_change_color)
+        self.homeButton.clicked.connect(lambda: go_home())
+        self.submitButton.clicked.connect(self.change_back_colour)  # this is defualt
+        self.RGB_Button.clicked.connect(self.get_rgb_values)
         self.rSlider.valueChanged.connect(self.get_r_value)
         self.gSlider.valueChanged.connect(self.get_g_value)
         self.bSlider.valueChanged.connect(self.get_b_value)
         self.clearRecordsButton.clicked.connect(lambda: go_confirm())
 
-    def custom_change_color(self):
-        window.setStyleSheet(f"background-color: rgb({self.get_r_value()}, {self.get_g_value()}, {self.get_b_value()})")
-
     def get_r_value(self):
         red = str(self.rSlider.value())
         self.rValue.setText(red)
         return int(red)
+
+    def get_rgb_values(self):
+        red = str(self.rSlider.value())
+        green = str(self.gSlider.value())
+        blue = str(self.bSlider.value())
+        rgb = f"rgb({red}, {green}, {blue})"
+        financeDataBase.send_bg_color(rgb)
 
     def get_g_value(self):
         green = str(self.gSlider.value())
@@ -211,16 +228,14 @@ class Settings(QDialog):
 
     def change_back_colour(self):
         state = self.colorSelectBox.currentText()
+        print(state)
 
         if state == "Mauve":
-            window.setStyleSheet("""QDialog#Dialog{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, 
-            y2:1, stop:0 rgba(66, 39, 90, 1), stop:1 rgba(115, 75, 109, 1)) }""")
+            financeDataBase.send_bg_color(mauve)
         elif state == "Green Blue":
-            window.setStyleSheet("""QDialog#Dialog{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, 
-            y2:1, stop:0 rgba(67, 206, 162, 1), stop:1 rgba(24, 90, 157, 1)) }""")
+            financeDataBase.send_bg_color(green_blue)
         else:
-            window.setStyleSheet("""QDialog#Dialog{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, 
-            y2:1, stop:0 rgba(221, 214, 243, 1), stop:1 rgba(250, 172, 168, 1)) }""")
+            financeDataBase.send_bg_color(pink_orange)
 
 
 class Confirm(QDialog):

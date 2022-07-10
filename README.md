@@ -47,7 +47,7 @@ This project allowed me to become more confident in my Object Oriented programmi
 
 
 ## Latest Updates:
-### June 4th 2022
-- Fixed bug where background color kept changing when switching screens
-- Added ability so finance app can save your previous background when reopening 
+### July 9th 2022
+-Added some doccumention for code to make it easier to read
+-Added ability to tell users when they hit goal or over budget once expense entered
 

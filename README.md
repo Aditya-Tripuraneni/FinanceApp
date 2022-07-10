@@ -48,6 +48,6 @@ This project allowed me to become more confident in my Object Oriented programmi
 
 ## Latest Updates:
 ### July 9th 2022
--Added some doccumention for code to make it easier to read
--Added ability to tell users when they hit goal or over budget once expense entered
+- Added some doccumention for code to make it easier to read
+- Added ability to tell users when they hit goal or over budget once expense entered
 

@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.QtCore import QCoreApplication
 from PyQt5.uic import loadUi
 import financeDataBase
 
@@ -8,10 +9,17 @@ mauve = "rgba(66, 39, 90, 1), stop:1 rgba(115, 75, 109, 1)"
 green_blue = "rgba(67, 206, 162, 1), stop:1 rgba(24, 90, 157, 1)"
 pink_orange = "rgba(221, 214, 243, 1), stop:1 rgba(250, 172, 168, 1)"
 
+"""
+    Method Name: verify
+    Parameters: user_input
+    @user_input: user entry is entered here
+    Purpose: Makes sure user enters numerical digits
+"""
+
 
 def verify(user_input):
     try:
-        int(user_input)
+        float(user_input)
         print("Possible")
         return True
     except ValueError:
@@ -19,10 +27,24 @@ def verify(user_input):
         return False
 
 
+"""
+    Method Name: go_help
+    Parameters: None
+    Purpose: Switches to help screen
+"""
+
+
 def go_help():
     help_window = Help()
     widget.addWidget(help_window)
     widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+"""
+    Method Name: go_home
+    Parameters: None
+    Purpose: Switches to home screen
+"""
 
 
 def go_home():
@@ -38,10 +60,24 @@ def go_home():
     widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
+"""
+    Method Name: go_settings
+    Parameters: None
+    Purpose: Switches to settings screen
+"""
+
+
 def go_settings():
     settings_window = Settings()
     widget.addWidget(settings_window)
     widget.setCurrentIndex(widget.currentIndex() + 1)
+
+
+"""
+    Method Name: go_confirm
+    Parameters: None
+    Purpose: Switches to confirm screen
+"""
 
 
 def go_confirm():
@@ -88,9 +124,15 @@ class FinanceMenu(QDialog):
         self.setStyleSheet(f"QDialog#Dialog {{ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1,"
                            f"y2:1, stop:0 {financeDataBase.get_bg_color()}) }})")
 
+    """
+    Method Name: send_all_data
+    Parameters: None
+    Purpose: Sends all of entered expenses to DB on their computer
+    """
+
     def send_all_data(self):
         if verify(self.funEntry.text()):
-            financeDataBase.send_data("FUN", self.funEntry.text())
+            financeDataBase.send_data("FUN", float(self.funEntry.text()))
             print("Successful")
         if verify(self.transportationEntry.text()):
             financeDataBase.send_data("TRANSPORTATION", self.transportationEntry.text())
@@ -120,22 +162,51 @@ class FinanceMenu(QDialog):
         self.billsEntry.setText("")
         self.otherEntry.setText("")
 
+        goal = financeDataBase.get_data("GOAL")
+        total_spent = financeDataBase.get_total_spent()
+        if total_spent > goal[0][0]:
+            trial = Trial()
+            trial.warning.setText("You Are Over Budget Now!")
+            trial.exec_()
+        elif total_spent == goal[0][0]:
+            trial = Trial()
+            trial.warning.setText("You Have Hit Your Budget!")
+            trial.exec_()
+
+    """
+    Method Name: send_goal
+    Parameters: None
+    Purpose: Sends user's goal to database so it is saved
+    """
+
     def send_goal(self):
         if verify(self.goalEntry.text()):
             financeDataBase.update_record("GOAL", self.goalEntry.text())
         self.goalEntry.setText("")
 
+    """
+    Method Name: check_at_goal
+    Parameters: None
+    Purpose: Checks if user surpassed goal
+    """
+
     def check_at_goal(self):
         goal = financeDataBase.get_data("GOAL")
         if financeDataBase.get_total_spent() > goal[0][0]:
             print("You have exceeded your budget!")
-            self.spentSpecificLabel.setText("You are over budget")
+            self.spentSpecificLabel.setText(f"You are over budget, your budget was ${goal[0][0]}")
         elif 0 <= (goal[0][0] - financeDataBase.get_total_spent()) <= 500:
             self.spentSpecificLabel.setText(f"You are $500 within the budget, your budget is ${goal[0][0]}")
         elif financeDataBase.get_total_spent() < goal[0][0]:
-            self.spentSpecificLabel.setText("You are under budget don't worry!")
+            self.spentSpecificLabel.setText(f"You are under budget don't worry! Budget: ${goal[0][0]}")
         else:
-            self.spentSpecificLabel.setText("You reached budget!")
+            self.spentSpecificLabel.setText(f"You reached budget! Budget: ${goal[0][0]}")
+
+    """
+    Method Name: view_total_fun_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on fun category 
+    """
 
     def view_total_fun_expenses(self):
         spent = financeDataBase.sum_partic_expense("FUN")
@@ -144,12 +215,24 @@ class FinanceMenu(QDialog):
         else:
             self.spentSpecificLabel.setText("Nothing spent on fun yet! Try entering something")
 
+    """
+    Method Name: view_total_transport_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on transport category 
+    """
+
     def view_total_transport_expenses(self):
         spent = financeDataBase.sum_partic_expense("TRANSPORTATION")
         if spent is not None:
             self.spentSpecificLabel.setText(f"You spent ${round(spent)} on Transportation")
         else:
             self.spentSpecificLabel.setText("Nothing spent on transportation yet! Try entering something")
+
+    """
+    Method Name: view_total_food_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on food category 
+    """
 
     def view_total_food_expenses(self):
         spent = financeDataBase.sum_partic_expense("FOOD")
@@ -158,12 +241,24 @@ class FinanceMenu(QDialog):
         else:
             self.spentSpecificLabel.setText("Nothing spent on food yet! Try entering something")
 
+    """
+    Method Name: view_total_clothes_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on clothes category 
+    """
+
     def view_total_clothes_expenses(self):
         spent = financeDataBase.sum_partic_expense("CLOTHES")
         if spent is not None:
             self.spentSpecificLabel.setText(f"You spent ${round(spent)} on Clothes")
         else:
             self.spentSpecificLabel.setText("Nothing spent on clothes yet! Try entering something")
+
+    """
+    Method Name: view_total_bills_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on bills category 
+    """
 
     def view_total_bills_expenses(self):
         spent = financeDataBase.sum_partic_expense("BILLS")
@@ -172,6 +267,12 @@ class FinanceMenu(QDialog):
         else:
             self.spentSpecificLabel.setText("Nothing spent on bills yet! Try entering something")
 
+    """
+    Method Name: view_total_other_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on other category 
+    """
+
     def view_total_other_expenses(self):
         spent = financeDataBase.sum_partic_expense("OTHER")
         if spent is not None:
@@ -179,9 +280,15 @@ class FinanceMenu(QDialog):
         else:
             self.spentSpecificLabel.setText("Nothing spent on other yet! Try entering something")
 
+    """
+    Method Name: view_all_expenses
+    Parameters: None
+    Purpose: Displays total amount of money spent on all categories 
+    """
+
     def view_all_expenses(self):
         spent = financeDataBase.get_total_spent()
-        self.spentSpecificLabel.setText(f"TOTAL Expenses: ${round(spent)}")
+        self.spentSpecificLabel.setText(f"TOTAL Expenses: ${round(spent,2)}")
 
 
 class Help(QDialog):
@@ -190,6 +297,14 @@ class Help(QDialog):
         loadUi("help.ui", self)
         self.homeButton1.clicked.connect(lambda: go_home())
         self.explain.setWordWrap(True)
+
+
+class Trial(QDialog):
+    def __init__(self):
+        super(Trial, self).__init__()
+        loadUi("trial.ui", self)
+        self.setWindowTitle("Warning")
+        self.exitButton.clicked.connect(self.close)
 
 
 class Settings(QDialog):
@@ -254,7 +369,9 @@ window = FinanceMenu()
 
 widget.addWidget(window)
 
-widget.setFixedWidth(1500)
-widget.setFixedHeight(1000)
+sizeObject = QtWidgets.QDesktopWidget().screenGeometry(-1)
+
+widget.setFixedWidth(sizeObject.width())
+widget.setFixedHeight(sizeObject.height())
 widget.show()
 app.exec_()

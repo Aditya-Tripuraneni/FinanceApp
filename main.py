@@ -1,7 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog, QApplication
-from PyQt5.QtCore import QCoreApplication
 from PyQt5.uic import loadUi
 import financeDataBase
 
@@ -164,14 +163,13 @@ class FinanceMenu(QDialog):
 
         goal = financeDataBase.get_data("GOAL")
         total_spent = financeDataBase.get_total_spent()
+        warn = Warning()
         if total_spent > goal[0][0]:
-            trial = Trial()
-            trial.warning.setText("You Are Over Budget Now!")
-            trial.exec_()
+            warn.warning.setText("You Are Over Budget Now!")
+            warn.exec_()
         elif total_spent == goal[0][0]:
-            trial = Trial()
-            trial.warning.setText("You Have Hit Your Budget!")
-            trial.exec_()
+            warn.warning.setText("You Have Hit Your Budget!")
+            warn.exec_()
 
     """
     Method Name: send_goal
@@ -299,10 +297,10 @@ class Help(QDialog):
         self.explain.setWordWrap(True)
 
 
-class Trial(QDialog):
+class Warning(QDialog):
     def __init__(self):
-        super(Trial, self).__init__()
-        loadUi("trial.ui", self)
+        super(Warning, self).__init__()
+        loadUi("warning.ui", self)
         self.setWindowTitle("Warning")
         self.exitButton.clicked.connect(self.close)
 

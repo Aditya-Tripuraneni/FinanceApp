@@ -37,17 +37,16 @@ This is a simple finance tracker that allows users to track and mange their expe
 ![piechart](https://user-images.githubusercontent.com/59937191/170799112-7f760048-b9a3-417e-8268-8b46f3cd6f91.png)
 
 ## Inspiration 
-After taking part in my first hackathon when I was 15, and creatign a pet expense tracker, I decided to take my SQL knowedge and GUI capabilities to the next level. I wanted to create an app that would help my family and other peopel monitor their finances. This is app focuses on the simplicity on just keeping track of how you spend your money. 
+After taking part in my first hackathon when I was 15, and creating a pet expense tracker, I decided to take my SQL knowledge and GUI capabilities to the next level. I wanted to create an app that would help my family and other people monitor their finances. This app focuses on the simplicity of just keeping track of how you spend your money. 
 
 ## What I learned 
 - Pyqt5
 - Matplotlib 
 - More from SQL
-This project allowed me to become more confident in my Object Oriented programming skills, and allowed me to work with new technologies I have previous not worked with before such as a powerful GUI builder "Pyqt5". I was able to learn how to efficiently use Matplot lib to implement graphs and a pie chart. Lastly, I became more familar with SQL commands in python and using better practices to retrieve data. 
+This project allowed me to become more confident in my Object Oriented programming skills and allowed me to work with new technologies I have previously not worked with such as a powerful GUI builder "Pyqt5". I was able to learn how to efficiently use Matplot lib to implement graphs and a pie chart. Lastly, I became more familiar with SQL commands in Python and using better practices to retrieve data. 
 
 
 ## Latest Updates:
-### July 9th 2022
-- Added some doccumention for code to make it easier to read
-- Added ability to tell users when they hit goal or over budget once expense entered
+### June 6th 2023
+- Grammar
 
